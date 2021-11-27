@@ -12,15 +12,17 @@ struct _particle
 Particle* InitParticles();
 void Update(Particle* pArray);
 void Draw(Particle* pArray);
+void Randomize(Particle* pArray);
 
 const int SIZE = 100;
+float elapsedTime = 0;
 
 int main(void)
 {
     const int screenWidth = 800;
     const int screenHeight = 400;
 
-    InitWindow(screenWidth, screenHeight, "Ali Umar");
+    InitWindow(screenWidth, screenHeight, "Ali's Particle Playground");
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 
@@ -28,16 +30,23 @@ int main(void)
 
     while (!WindowShouldClose()) 
     {
+        elapsedTime += GetFrameTime();
+
 
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
+        if(IsMouseButtonPressed(0)) 
+        {
+            printf("%lf\r\n", elapsedTime);
+            Randomize(pArray);
+        }
+
         Draw(pArray);
 
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-
         EndDrawing();
+;
     }
 
     CloseWindow(); 
@@ -62,8 +71,20 @@ Particle* InitParticles() {
     }
 
     return pArray;
-
 }
+
+void Randomize(Particle* pArray) {
+
+    int i;
+    time_t t;
+    srand((unsigned) time(&t));
+
+    for(i = 0; i < SIZE; ++i) {
+        pArray[i].pos.x = rand() % 801;
+        pArray[i].pos.y = rand() % 401;
+    }
+}
+
 void Update(Particle* pArray) {
 
 }
