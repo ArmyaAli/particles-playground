@@ -7,15 +7,19 @@ struct _particle
     Vector2 pos;
     float radius;
     Color color;
+    float dt;
+    float vel;
 } typedef Particle;
 
-Particle* InitParticles();
-void Update(Particle* pArray);
-void Draw(Particle* pArray);
-void Randomize(Particle* pArray);
+void InitParticles();
 
-const int SIZE = 100;
-float elapsedTime = 0;
+void Update(Particle *pArray, float elapsedTime);
+void Draw(Particle *pArray);
+void RandomizeParticles(Particle *pArray);
+
+int SIZE = 4;
+float acceleration = 2;
+Particle* pArray = NULL;
 
 int main(void)
 {
@@ -26,72 +30,109 @@ int main(void)
 
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
 
-    Particle* pArray = InitParticles();
 
-    while (!WindowShouldClose()) 
+    while (!WindowShouldClose())
     {
-        elapsedTime += GetFrameTime();
-
-
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
-        if(IsMouseButtonPressed(0)) 
+        if (IsMouseButtonPressed(0))
         {
-            printf("%lf\r\n", elapsedTime);
-            Randomize(pArray);
+            InitParticles();
+            printf("Clicked\r\n");
         }
 
-        Draw(pArray);
+        if(pArray) {
+            Draw(pArray);
+            Update(pArray, GetFrameTime());
+        }
 
         EndDrawing();
-;
     }
 
-    CloseWindow(); 
-    
+    free(pArray);
+
+    CloseWindow();
 
     return 0;
 }
 
-Particle* InitParticles() {
-    const Color colors[3] = { GREEN, RED, VIOLET};
+void InitParticles()
+{
+    const int colorsLen = 3;
     const int radius = 8;
-    Particle* pArray = malloc(SIZE*sizeof(Particle));
-    int i;
-    time_t t;
-    srand((unsigned) time(&t));
 
-    for(i = 0; i < SIZE; ++i) {
-        pArray[i].color = colors[rand() % 4];
+    const Color colors[3] = {GREEN, RED, VIOLET};
+    int i;
+    
+    if(pArray == NULL) {
+        printf("here\r\n");
+        pArray = malloc(SIZE * sizeof(Particle));
+        time_t t;
+
+        srand((unsigned)time(&t));
+
+        for (i = 0; i < SIZE; ++i)
+        {
+            pArray[i].color = colors[rand() % colorsLen];
+            pArray[i].pos.x = rand() % 801;
+            pArray[i].pos.y = rand() % 401;
+            pArray[i].radius = radius;
+            pArray[i].vel = 1.0f;
+        }
+
+        return;
+    }
+
+    printf("not here\r\n");
+    SIZE *= 2;
+    pArray = realloc(pArray, SIZE * sizeof(Particle)); // double the particles 
+
+    for (i = SIZE / 2; i < SIZE; ++i)
+    {
+        pArray[i].color = colors[rand() % colorsLen];
         pArray[i].pos.x = rand() % 801;
         pArray[i].pos.y = rand() % 401;
         pArray[i].radius = radius;
+        pArray[i].vel = 1.0f;
     }
 
-    return pArray;
+
 }
 
-void Randomize(Particle* pArray) {
-
+void RandomizeParticles(Particle *pArray)
+{
     int i;
     time_t t;
-    srand((unsigned) time(&t));
+    srand((unsigned)time(&t));
 
-    for(i = 0; i < SIZE; ++i) {
+    for (i = 0; i < SIZE; ++i)
+    {
         pArray[i].pos.x = rand() % 801;
         pArray[i].pos.y = rand() % 401;
     }
 }
 
-void Update(Particle* pArray) {
-
+void Update(Particle *pArray, float t)
+{
+    int i;
+    for (i = 0; i < SIZE; ++i)
+    {
+        pArray[i].dt += t;
+        pArray[i].pos.y += pArray[i].vel * 0.5 * acceleration * pArray[i].dt * pArray[i].dt;
+        if (pArray[i].pos.y > (400 + pArray[i].radius) || pArray[i].pos.y < 0 + pArray[i].radius)
+        {
+            pArray[i].vel *= -1.0f;
+        }
+    }
 }
 
-void Draw(Particle* pArray) {
+void Draw(Particle *pArray)
+{
     int i;
-    for(i = 0; i < SIZE; ++i) {
-        DrawCircle(pArray[i].pos.x, pArray[i].pos.y, pArray[i].radius, pArray[i].color);            
+    for (i = 0; i < SIZE; ++i)
+    {
+        DrawCircle(pArray[i].pos.x, pArray[i].pos.y, pArray[i].radius, pArray[i].color);
     }
 }
