@@ -2,6 +2,7 @@
 #define P_BUFFER
 
 #include <stdlib.h>
+#include "raylib.h"
 
 typedef struct _particle
 {
@@ -14,6 +15,7 @@ typedef struct _particle
     float vel;
     float acceleration;
     float lifeTime;
+    Color color;
 } Particle;
 
 typedef struct _pBuffer
@@ -23,7 +25,9 @@ typedef struct _pBuffer
     Particle* particles;
 } PARTICLE_BUFFER;
 
-PARTICLE_BUFFER* init();
+
+PARTICLE_BUFFER* init_particles_buffer();
+
 void add_particle(PARTICLE_BUFFER*, Particle*);
 void remove_finished_particles(PARTICLE_BUFFER*);
 void log_particles(PARTICLE_BUFFER*);
