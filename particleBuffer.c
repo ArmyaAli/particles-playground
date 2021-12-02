@@ -37,6 +37,9 @@ void remove_finished_particles(PARTICLE_BUFFER* buffer)
     // we need to scan through the buffer and look for particles with lifeTime = 0;
     // then we need to remove them from the buffer
     // if we remove we also need to shift the rest
+    if(buffer->size == 0)
+        return;
+
     Particle* pArray = buffer->particles;
     
     int i;
@@ -44,6 +47,11 @@ void remove_finished_particles(PARTICLE_BUFFER* buffer)
     {
         while(pArray[i].lifeTime == 0)
         {
+            if(i == buffer->size) {
+                buffer->size--;
+                return;
+            }
+
             int j;
             for (j = i; j < buffer->size; ++j)
             {
@@ -58,6 +66,8 @@ void remove_finished_particles(PARTICLE_BUFFER* buffer)
 void log_particles(PARTICLE_BUFFER* buffer)
 {
     Particle* pArray = buffer->particles;
+    
+    printf("Capacity: %d Size: %d\n", buffer->capacity, buffer->size);
 
     int i;
     for (i = 0; i < buffer->size; ++i)
