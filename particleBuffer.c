@@ -1,6 +1,6 @@
 #include "./include/particleBuffer.h"
 
-PARTICLE_BUFFER* init()
+PARTICLE_BUFFER* init_particles_buffer()
 {
     PARTICLE_BUFFER* buffer = calloc(1, sizeof(PARTICLE_BUFFER));
     buffer->particles       = NULL;
@@ -44,8 +44,6 @@ void remove_finished_particles(PARTICLE_BUFFER* buffer)
     {
         while(pArray[i].lifeTime == 0)
         {
-            printf("HIT: %d\n", i);
-
             int j;
             for (j = i; j < buffer->size; ++j)
             {
@@ -64,8 +62,8 @@ void log_particles(PARTICLE_BUFFER* buffer)
     int i;
     for (i = 0; i < buffer->size; ++i)
     {
-        printf("index: %d x: %d y: %d vel: %lf acc: %lf lT: %lf\n", i, pArray[i].pos.x, pArray[i].pos.y, pArray[i].vel,
-               pArray[i].acceleration, pArray[i].lifeTime);
+        printf("index: %d x: %d y: %d vel: %lf acc: %lf lT: %lf color: (%d, %d, %d, %d)\n", i, pArray[i].pos.x, pArray[i].pos.y, pArray[i].vel,
+               pArray[i].acceleration, pArray[i].lifeTime, pArray[i].color.r, pArray[i].color.g, pArray[i].color.b, pArray[i].color.a);
     }
 
     printf("\n\n");
