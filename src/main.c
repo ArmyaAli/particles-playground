@@ -2,13 +2,13 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "include/raylib.h"
-#include "include/particleBuffer.h"
+#include "../include/raylib.h"
+#include "../include/particleBuffer.h"
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 400
 #define RADIUS        2
-#define SIZE          100
+#define SIZE          32 
 
 float float_rand( float min, float max );
 
@@ -18,14 +18,17 @@ int main(void)
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ali's Particle Playground");
     SetTargetFPS(60); // Set our game to run at 60 frames-per-second
     // Buffer
-
+    char particleNumberText[32];
     PARTICLE_BUFFER* buffer = init_particles_buffer();
 
     while (!WindowShouldClose())
     {
+        sprintf(particleNumberText, "# of Particles: %d", buffer->size);
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
+        DrawFPS(8, 8);
+        DrawText(particleNumberText, SCREEN_WIDTH - MeasureText(particleNumberText, 24) - 8, 8, 24, RED);
 
         if (IsMouseButtonPressed(0))
         {
@@ -57,7 +60,7 @@ void InitParticles(PARTICLE_BUFFER* buffer)
     const int offset           = 32;
     const Color colors[3]      = { GREEN, RED, VIOLET };
     const Vector2 velocity     = { 1.0f, 0.0f };
-    const Vector2 acceleration = { 0, 0.05 };
+    const Vector2 acceleration = { 0, 0.2 };
     const Vector2 mouse = GetMousePosition();
     time_t t;
     srand((unsigned)time(&t));
@@ -66,20 +69,20 @@ void InitParticles(PARTICLE_BUFFER* buffer)
     for (i = 0; i < SIZE / 2; ++i)
     {
         Particle p = {
-        { mouse.x + offset * cos(float_rand(PI/2, -PI/2)), mouse.y + offset * sin(float_rand(0, PI))}, 
+        { mouse.x - offset * cos(float_rand(PI/2, -PI/2)), mouse.y + offset * sin(float_rand(0, PI))}, 
         velocity, 
         acceleration, 
-        rand() % 255, colors[rand() % 3]};
+        rand() % 500, colors[rand() % 3]};
         add_particle(buffer, &p);
     }
 
     for (i = SIZE / 2; i < SIZE; ++i)
     {
         Particle p = {
-        { mouse.x + offset * cos(float_rand(PI/2, 2*PI/3)), mouse.y - offset * sin(float_rand(PI, 2*PI))}, 
+        { mouse.x - offset * cos(float_rand(PI/2, 2*PI/3)), mouse.y - offset * sin(float_rand(PI, 2*PI))}, 
         velocity, 
         acceleration, 
-        rand() % 255, colors[rand() % 3]};
+        rand() % 500, colors[rand() % 3]};
         add_particle(buffer, &p);
     }
 }

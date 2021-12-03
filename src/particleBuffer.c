@@ -1,4 +1,4 @@
-#include "./include/particleBuffer.h"
+#include "../include/particleBuffer.h"
 
 PARTICLE_BUFFER* init_particles_buffer()
 {
