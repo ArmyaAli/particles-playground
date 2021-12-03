@@ -59,6 +59,8 @@ void Update(PARTICLE_BUFFER* buffer)
             pArray[i].vel.y *= -1;
         }
     }
+
+    update_menu();
 }
 
 void Draw(PARTICLE_BUFFER* buffer)
