@@ -4,13 +4,12 @@
 #include "../include/raylib.h"
 #include "../include/particleBuffer.h"
 #include "../include/util.h"
+#include "../include/particles.h"
 
-#define RADIUS 2
-#define SIZE   32
 
-void InitParticles(PARTICLE_BUFFER* buffer);
-float float_rand( float min, float max );
-void Update(PARTICLE_BUFFER* buffer);
-void Draw(PARTICLE_BUFFER* buffer);
+void Create(PARTICLE_BUFFER*);
+void Update(PARTICLE_BUFFER*);
+void Draw(PARTICLE_BUFFER*);
+void Destroy(PARTICLE_BUFFER*);
 
 #endif
