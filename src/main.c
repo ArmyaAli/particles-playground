@@ -19,32 +19,18 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        sprintf(particleNumberText, "# of Particles: %d", buffer->size);
+        // sprintf(particleNumberText, "# of Particles: %d", buffer->size);
         BeginDrawing();
 
         ClearBackground(RAYWHITE);
         DrawFPS(8, 8);
-        DrawText(particleNumberText, SCREEN_WIDTH - MeasureText(particleNumberText, 24) - 8, 8, 24, RED);
-
-        if (IsMouseButtonPressed(0))
-        {
-            printf("Clicked\r\n");
-            // log_particles(buffer);
-            InitParticles(buffer);
-        }
-
-
-        if (IsMouseButtonDown(0)) {
-            InitParticles(buffer);
-        }
+        // DrawText(particleNumberText, SCREEN_WIDTH - MeasureText(particleNumberText, 24) - 8, 8, 24, RED);
+        Create(buffer);
         Update(buffer);
         Draw(buffer);
-        remove_finished_particles(buffer);
-
         EndDrawing();
     }
 
-    destroy_particle_buffer(buffer);
     CloseWindow();
 
     return 0;
