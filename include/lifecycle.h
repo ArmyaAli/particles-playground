@@ -5,6 +5,7 @@
 #include "../include/particleBuffer.h"
 #include "../include/util.h"
 #include "../include/particles.h"
+#include "../include/menu.h"
 
 
 void Create(PARTICLE_BUFFER*);
