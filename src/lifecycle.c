@@ -2,7 +2,8 @@
 
 void Create(PARTICLE_BUFFER* buffer)
 {
-    create_particles(buffer);
+    if(IsMouseButtonDown(0) && !collision_exists())
+        create_particles(buffer);
 }
 
 void Update(PARTICLE_BUFFER* buffer)
