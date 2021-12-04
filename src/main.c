@@ -8,9 +8,6 @@
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 400
 
-
-float float_rand( float min, float max );
-
 int main(void)
 {
     // RAYLIB INIT
