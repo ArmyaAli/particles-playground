@@ -10,7 +10,6 @@ void Create(PARTICLE_BUFFER* buffer)
 
 void Update(PARTICLE_BUFFER* buffer)
 {
-
     sprintf(particleNumberText, "# of Particles: %d", buffer->size);
     update_particles(buffer); 
     update_menu();
