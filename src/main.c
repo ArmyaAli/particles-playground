@@ -26,6 +26,7 @@ int main(void)
         EndDrawing();
     }
 
+    destroy_particle_buffer(buffer);
     CloseWindow();
 
     return 0;
