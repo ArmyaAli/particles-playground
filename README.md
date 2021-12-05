@@ -1,10 +1,19 @@
 # particles-playground
+## About
+Hi, my name is Ali and i've been working on this on and off. It's really cool, check it out!. 
 
-### Example
-![image description](./assets/draw_particles_on_screen.jpg)
+## Get started
+Everything in this repo should be included to get this program up and running on Windows... however you will need MinGW GCC Compiler and a GNU Make port on your computer.
 
-### Dynamic adding of particles && example of a lifetime removing them every frame
-![image description](./assets/life_time_animation.gif)
+1. Git clone the repo
+2. mkdir output
+3. make run
+4. 
+### Current state
+![image description](./assets/we_going_somewhere.gif)
 
-### Some neat progress, giving the particles life ! 
-![image description](./assets/cool_progress_gify.gif)
+### Previous progress
+<img  width="400" src="./assets/cool_progress_gify.gif">
+<img  width="400" src="./assets/draw_particles_on_screen.jpg">
+<img  width="400" src="./assets/life_time_animation.gif">
+
