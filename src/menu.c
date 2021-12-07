@@ -20,8 +20,11 @@ const char colorButtonMessages[25][20]  = {
     "GREEN",     "LIME",  "DARKGREEN", "SKYBLUE", "BLUE",  "DARKBLUE", "PURPLE",  "VIOLET", "DARKPURPLE",
     "BEIGE",     "BROWN", "DARKBROWN", "WHITE",   "BLACK", "BLANK",    "RAYWHITE"};
 
+const char speedButtonMessage[6];
+const char accButtonMessage[6];
 extern int color_position;
 extern Vector2 velocity_magnitude;
+extern Vector2 acceleration_magnitude;
 
 void update_menu()
 {
@@ -67,9 +70,23 @@ void draw_menu()
             if (color_position != 0)
             {
                 DrawText(colorButtonMessages[color_position],
-                         MENU_X + BUTTON_WIDTH / 2 - MeasureText(colorButtonMessages[color_position], FONT_SIZE) / 2,
-                         MENU_Y + i * BUTTON_GAP + BUTTON_HEIGHT / 2 - FONT_SIZE / 2 + FONT_SIZE, FONT_SIZE / 2, RED);
+                         MENU_X + BUTTON_WIDTH / 2 - MeasureText(colorButtonMessages[color_position], FONT_SIZE / 2) / 2,
+                         MENU_Y + i * BUTTON_GAP + BUTTON_HEIGHT / 2 - FONT_SIZE / 2 + FONT_SIZE, FONT_SIZE / 2, BLACK);
             }
+        }
+
+        if (i == 1)
+        {
+            sprintf(speedButtonMessage, "Value: %.2lf", velocity_magnitude.x);
+            DrawText(speedButtonMessage, MENU_X + BUTTON_WIDTH / 2 - MeasureText(speedButtonMessage, FONT_SIZE / 2)/ 2,
+                     MENU_Y + i * BUTTON_GAP + BUTTON_HEIGHT / 2 - FONT_SIZE / 2 + FONT_SIZE, FONT_SIZE / 2, BLACK);
+        }
+
+        if (i == 2)
+        {
+            sprintf(accButtonMessage, "Value: %.2lf", acceleration_magnitude.y);
+            DrawText(accButtonMessage, MENU_X + BUTTON_WIDTH / 2 - MeasureText(accButtonMessage, FONT_SIZE / 2) / 2,
+                     MENU_Y + i * BUTTON_GAP + BUTTON_HEIGHT / 2 - FONT_SIZE / 2 + FONT_SIZE, FONT_SIZE / 2, BLACK);
         }
 
         DrawTriangle((Vector2){MENU_X - TRI_BUTTON_GAP, MENU_Y + i * BUTTON_GAP},
@@ -127,8 +144,11 @@ int check_decrement_button_collision()
                 (Vector2){MENU_X - TRI_HEIGHT, MENU_Y + i * BUTTON_GAP + BUTTON_HEIGHT / 2}, // CENTER
                 (Vector2){MENU_X - TRI_BUTTON_GAP, MENU_Y + i * BUTTON_GAP + BUTTON_HEIGHT}))
         {
+            SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
             return i;
         }
+
+        SetMouseCursor(MOUSE_CURSOR_DEFAULT);
     }
     return -1;
 }
