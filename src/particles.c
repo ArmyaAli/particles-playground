@@ -5,7 +5,7 @@ int color_position = 0;
 int defaults[4] = {0, 0, 0, 0};
 
 Vector2 velocity_magnitude     = {1.0f, 1.0f};
-Vector2 acceleration_magnitude = {1.0f, 0.0f};
+Vector2 acceleration_magnitude = {0.0f, 1.0f};
 
 void create_particles(PARTICLE_BUFFER* buffer)
 {
@@ -54,6 +54,7 @@ void update_particles(PARTICLE_BUFFER* buffer)
 
     change_color_on_button_click();
     change_velocity_on_button_click();
+    change_acceleration_on_button_click();
 
     int i;
     for (i = 0; i < buffer->size; ++i)
@@ -70,8 +71,9 @@ void update_particles(PARTICLE_BUFFER* buffer)
         {
             pArray[i].color = colors[rand() % 25];
         }
+
+        destroy_all(pArray, i);
     }
-    // log_particles(buffer);
     remove_finished_particles(buffer);
     reset_defaults();
 }
@@ -87,8 +89,8 @@ void update_physics(Particle* pArray, int i)
     pArray[i].pos.x += pArray[i].vel.x * velocity_magnitude.x;
     pArray[i].pos.y += pArray[i].vel.y * velocity_magnitude.y;
 
-    pArray[i].vel.x += pArray[i].acceleration.x;
-    pArray[i].vel.y += pArray[i].acceleration.y;
+    pArray[i].vel.x += pArray[i].acceleration.x * acceleration_magnitude.x;
+    pArray[i].vel.y += pArray[i].acceleration.y * acceleration_magnitude.y;
 }
 
 void check_bounds(Particle* pArray, int i)
@@ -120,7 +122,7 @@ void change_velocity_on_button_click()
 
         if (check_decrement_button_collision() == 1)
         {
-            if (velocity_magnitude.x > -50.0f)
+            if (velocity_magnitude.x > 0)
             {
                 velocity_magnitude.x -= 0.5f;
             }
@@ -130,6 +132,35 @@ void change_velocity_on_button_click()
         {
             defaults[1] == 1;
             velocity_magnitude = (Vector2){1.0f, 1.0f};
+        }
+    }
+}
+
+
+void change_acceleration_on_button_click()
+{
+    if (IsMouseButtonPressed(0))
+    {
+        if (check_increment_button_collision() == 2)
+        {
+            if (acceleration_magnitude.y < 50.0f)
+            {
+                acceleration_magnitude.y += 0.2f;
+            }
+        }
+
+        if (check_decrement_button_collision() == 2)
+        {
+            if (acceleration_magnitude.y > 0)
+            {
+                acceleration_magnitude.y -= 0.5f;
+            }
+        }
+
+        if (check_button_collision() == 2)
+        {
+            defaults[2] == 1;
+            acceleration_magnitude = (Vector2){0.0f, 1.0f};
         }
     }
 }
@@ -159,6 +190,17 @@ void change_color_on_button_click()
         {
             color_position = 0;
             defaults[0]    = 1;
+        }
+    }
+}
+
+void destroy_all(Particle* pArray, int index)
+{
+    if (IsMouseButtonPressed(0))
+    {
+        if (check_button_collision() == 3)
+        {   
+            pArray[index].lifeTime = 0;
         }
     }
 }
