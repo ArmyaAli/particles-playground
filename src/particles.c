@@ -36,7 +36,7 @@ void create_particles(PARTICLE_BUFFER* buffer)
     {
         Particle p = {
             {mouse.x - offset * cos(float_rand(PI / 2, 2 * PI / 3)), mouse.y - offset * sin(float_rand(PI, 2 * PI))},
-            velocity,
+            {velocity.x * -1, velocity.y},
             acceleration,
             rand() % 1000 + 500,
             colors[rand() % 25]};
