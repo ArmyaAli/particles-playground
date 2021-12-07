@@ -48,7 +48,8 @@ void remove_finished_particles(PARTICLE_BUFFER* buffer)
         while(pArray[i].lifeTime == 0)
         {
             if(i == buffer->size) {
-                buffer->size--;
+                if(buffer->size > 0)
+                    buffer->size--;
                 return;
             }
 
