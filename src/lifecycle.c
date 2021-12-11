@@ -2,20 +2,24 @@
 
 char particleNumberText[32];
 
-void Create(PARTICLE_BUFFER* buffer)
+void Init()
+{
+}
+
+void Create(ParticleBuffer* buffer)
 {
     if(IsMouseButtonDown(0) && !collision_exists())
         create_particles(buffer);
 }
 
-void Update(PARTICLE_BUFFER* buffer)
+void Update(ParticleBuffer* buffer)
 {
     sprintf(particleNumberText, "# of Particles: %d", buffer->size);
     update_particles(buffer); 
     update_menu();
 }
 
-void Draw(PARTICLE_BUFFER* buffer)
+void Draw(ParticleBuffer* buffer)
 {
     DrawFPS(8, 8);
     DrawText(particleNumberText, 800 - MeasureText(particleNumberText, 24) - 8, 8, 24, RED);
@@ -23,7 +27,7 @@ void Draw(PARTICLE_BUFFER* buffer)
     draw_menu();
 }
 
-void Destroy(PARTICLE_BUFFER* buffer) 
+void Destroy(ParticleBuffer* buffer) 
 {
     destroy_particles(buffer);
 }
