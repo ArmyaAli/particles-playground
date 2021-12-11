@@ -13,19 +13,18 @@ typedef struct _particle
     Color color;
 } Particle;
 
-typedef struct _pBuffer
+typedef struct _particleBuffer
 {
     int size;
     int capacity;
     Particle* particles;
-} PARTICLE_BUFFER;
+} ParticleBuffer;
 
+ParticleBuffer* init_particles_buffer();
 
-PARTICLE_BUFFER* init_particles_buffer();
-
-void add_particle(PARTICLE_BUFFER*, Particle*);
-void remove_finished_particles(PARTICLE_BUFFER*);
-void log_particles(PARTICLE_BUFFER*);
-void destroy_particle_buffer(PARTICLE_BUFFER*);
+void add_particle(ParticleBuffer*, Particle*);
+void remove_finished_particles(ParticleBuffer*);
+void log_particles(ParticleBuffer*);
+void destroy_particle_buffer(ParticleBuffer*);
 
 #endif
