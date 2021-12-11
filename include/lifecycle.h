@@ -7,10 +7,10 @@
 #include "../include/particles.h"
 #include "../include/menu.h"
 
-
-void Create(PARTICLE_BUFFER*);
-void Update(PARTICLE_BUFFER*);
-void Draw(PARTICLE_BUFFER*);
-void Destroy(PARTICLE_BUFFER*);
+void Init();
+void Create(ParticleBuffer*);
+void Update(ParticleBuffer*);
+void Draw(ParticleBuffer*);
+void Destroy(ParticleBuffer*);
 
 #endif
