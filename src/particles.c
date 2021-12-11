@@ -7,7 +7,7 @@ int defaults[4] = {0, 0, 0, 0};
 Vector2 velocity_magnitude     = {1.0f, 1.0f};
 Vector2 acceleration_magnitude = {0.0f, 1.0f};
 
-void create_particles(PARTICLE_BUFFER* buffer)
+void create_particles(ParticleBuffer* buffer)
 {
     const Color colors[25] = {LIGHTGRAY, GRAY,  DARKGRAY,  YELLOW,  GOLD,  ORANGE,   PINK,    RED,    MAROON,
                               GREEN,     LIME,  DARKGREEN, SKYBLUE, BLUE,  DARKBLUE, PURPLE,  VIOLET, DARKPURPLE,
@@ -27,7 +27,7 @@ void create_particles(PARTICLE_BUFFER* buffer)
             {mouse.x - offset * cos(float_rand(PI / 2, 2 * PI / 3)), mouse.y - offset * sin(float_rand(PI, 2 * PI))},
             velocity,
             acceleration,
-            rand() % 1000 + 500,
+            rand() % 300 + 255,
             colors[rand() % 25]};
         add_particle(buffer, &p);
     }
@@ -38,13 +38,13 @@ void create_particles(PARTICLE_BUFFER* buffer)
             {mouse.x - offset * cos(float_rand(PI / 2, 2 * PI / 3)), mouse.y - offset * sin(float_rand(PI, 2 * PI))},
             {velocity.x * -1, velocity.y},
             acceleration,
-            rand() % 1000 + 500,
+            rand() % 300 + 255,
             colors[rand() % 25]};
         add_particle(buffer, &p);
     }
 }
 
-void update_particles(PARTICLE_BUFFER* buffer)
+void update_particles(ParticleBuffer* buffer)
 {
     Particle* pArray = buffer->particles;
 
@@ -81,7 +81,7 @@ void update_particles(PARTICLE_BUFFER* buffer)
 void lifetime_stuff(Particle* pArray, int i)
 {
     if (pArray[i].lifeTime > 0)
-        pArray[i].lifeTime--;
+        --pArray[i].lifeTime;
 }
 
 void update_physics(Particle* pArray, int i)
@@ -214,17 +214,18 @@ void reset_defaults()
     }
 }
 
-void draw_particles(PARTICLE_BUFFER* buffer)
+void draw_particles(ParticleBuffer* buffer)
 {
     Particle* pArray = buffer->particles;
+    SetShapesTexture((Texture2D) {1,2,2,1, 1},(Rectangle) {0,0,1,1});
     int i;
     for (i = 0; i < buffer->size; ++i)
     {
-        DrawCircle(pArray[i].pos.x, pArray[i].pos.y, RADIUS, pArray[i].color);
+        DrawTexture((Texture2D) {1,2,2,1, 1}, pArray[i].pos.x, pArray[i].pos.y, pArray[i].color);
     }
 }
 
-void destroy_particles(PARTICLE_BUFFER* buffer)
+void destroy_particles(ParticleBuffer* buffer)
 {
     destroy_particle_buffer(buffer);
 }
